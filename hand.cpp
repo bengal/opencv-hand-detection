@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#import <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #define VIDEO_FILE	"video.avi"
 #define VIDEO_FORMAT	CV_FOURCC('M','J','P','G')
@@ -84,8 +84,8 @@ void init_ctx(struct ctx *ctx)
 	ctx->contour_st = cvCreateMemStorage(0);
 	ctx->hull_st = cvCreateMemStorage(0);
 	ctx->temp_st = cvCreateMemStorage(0);
-	ctx->fingers = calloc(NUM_FINGERS + 1, sizeof(CvPoint));
-	ctx->defects = calloc(NUM_DEFECTS, sizeof(CvPoint));
+	ctx->fingers = new CvPoint[NUM_FINGERS + 1]();
+	ctx->defects = new CvPoint[NUM_DEFECTS]();
 }
 
 void filter_and_threshold(struct ctx *ctx)
@@ -164,8 +164,7 @@ void find_convex_hull(struct ctx *ctx)
 					     ctx->defects_st);
 
 		if (defects && defects->total) {
-			defect_array = calloc(defects->total,
-					      sizeof(CvConvexityDefect));
+			defect_array = new CvConvexityDefect[defects->total]();
 			cvCvtSeqToArray(defects, defect_array, CV_WHOLE_SEQ);
 
 			/* Average depth points to get hand center */
@@ -215,7 +214,8 @@ void find_fingers(struct ctx *ctx)
 		return;
 
 	n = ctx->contour->total;
-	points = calloc(n, sizeof(CvPoint));
+// TODO CHECK	points = calloc(n, sizeof(CvPoint));
+	points = new CvPoint[n]();
 
 	cvCvtSeqToArray(ctx->contour, points, CV_WHOLE_SEQ);
 
