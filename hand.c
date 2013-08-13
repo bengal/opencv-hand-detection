@@ -21,9 +21,16 @@
 #include <opencv2/highgui/highgui_c.h>
 
 #define VIDEO_FILE	"video.avi"
-#define VIDEO_FORMAT	CV_FOURCC('M','J','P','G')
+#define VIDEO_FORMAT	CV_FOURCC('M', 'J', 'P', 'G')
 #define NUM_FINGERS	5
 #define NUM_DEFECTS	8
+
+#define RED     CV_RGB(255, 0, 0)
+#define GREEN   CV_RGB(0, 255, 0)
+#define BLUE    CV_RGB(0, 0, 255)
+#define YELLOW  CV_RGB(255, 255, 0)
+#define PURPLE  CV_RGB(255, 0, 255)
+#define GREY    CV_RGB(200, 200, 200)
 
 struct ctx {
 	CvCapture	*capture;	/* Capture handle */
@@ -269,27 +276,25 @@ void display(struct ctx *ctx)
 	if (ctx->num_fingers == NUM_FINGERS) {
 
 #if defined(SHOW_HAND_CONTOUR)
-		cvDrawContours(ctx->image, ctx->contour,
-			       CV_RGB(0,0,255), CV_RGB(0,255,0),
-			       0, 1, CV_AA, cvPoint(0,0));
+		cvDrawContours(ctx->image, ctx->contour, BLUE, GREEN, 0, 1,
+			       CV_AA, cvPoint(0, 0));
 #endif
-		cvCircle(ctx->image, ctx->hand_center, 5, CV_RGB(255, 0, 255),
-			 1, CV_AA, 0);
+		cvCircle(ctx->image, ctx->hand_center, 5, PURPLE, 1, CV_AA, 0);
 		cvCircle(ctx->image, ctx->hand_center, ctx->hand_radius,
-			 CV_RGB(255, 0, 0), 1, CV_AA, 0);
+			 RED, 1, CV_AA, 0);
 
 		for (i = 0; i < ctx->num_fingers; i++) {
 
 			cvCircle(ctx->image, ctx->fingers[i], 10,
-				 CV_RGB(0, 255, 0), 3, CV_AA, 0);
+				 GREEN, 3, CV_AA, 0);
 
 			cvLine(ctx->image, ctx->hand_center, ctx->fingers[i],
-			       CV_RGB(255,255,0), 1, CV_AA, 0);
+			       YELLOW, 1, CV_AA, 0);
 		}
 
 		for (i = 0; i < ctx->num_defects; i++) {
 			cvCircle(ctx->image, ctx->defects[i], 2,
-				 CV_RGB(200, 200, 200), 2, CV_AA, 0);
+				 GREY, 2, CV_AA, 0);
 		}
 	}
 
