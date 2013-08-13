@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include <opencv2/imgproc/imgproc_c.h>
+#include <opencv2/highgui/highgui_c.h>
 
 #define VIDEO_FILE	"video.avi"
 #define VIDEO_FORMAT	CV_FOURCC('M','J','P','G')
