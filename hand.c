@@ -207,7 +207,6 @@ void find_fingers(struct ctx *ctx)
 	CvPoint *points;
 	CvPoint max_point;
 	int dist1 = 0, dist2 = 0;
-	int finger_distance[NUM_FINGERS + 1];
 
 	ctx->num_fingers = 0;
 
@@ -234,7 +233,6 @@ void find_fingers(struct ctx *ctx)
 		if (dist < dist1 && dist1 > dist2 && max_point.x != 0
 		    && max_point.y < cvGetSize(ctx->image).height - 10) {
 
-			finger_distance[ctx->num_fingers] = dist;
 			ctx->fingers[ctx->num_fingers++] = max_point;
 			if (ctx->num_fingers >= NUM_FINGERS + 1)
 				break;
