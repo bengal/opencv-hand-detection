@@ -116,12 +116,11 @@ void filter_and_threshold(struct ctx *ctx)
 	cvCvtColor(ctx->temp_image3, ctx->temp_image3, CV_BGR2HSV);
 
 	/*
-	 * Apply threshold on HSV values
-	 * Threshold values should be customized according to environment
+	 * Apply threshold on HSV values to detect skin color
 	 */
 	cvInRangeS(ctx->temp_image3,
-		   cvScalar(0, 0, 160, 0),
-		   cvScalar(255, 400, 300, 255),
+		   cvScalar(0, 55, 90, 255),
+		   cvScalar(28, 175, 230, 255),
 		   ctx->thr_image);
 
 	/* Apply morphological opening */
