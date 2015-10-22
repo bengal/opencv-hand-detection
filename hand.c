@@ -108,8 +108,8 @@ void init_ctx(struct ctx *ctx)
 	ctx->contour_st = cvCreateMemStorage(0);
 	ctx->hull_st = cvCreateMemStorage(0);
 	ctx->temp_st = cvCreateMemStorage(0);
-	ctx->fingers = calloc(NUM_FINGERS + 1, sizeof(CvPoint));
-	ctx->defects = calloc(NUM_DEFECTS, sizeof(CvPoint));
+	ctx->fingers = (CvPoint*) calloc(NUM_FINGERS + 1, sizeof(CvPoint));
+	ctx->defects = (CvPoint*) calloc(NUM_DEFECTS, sizeof(CvPoint));
 }
 
 void filter_and_threshold(struct ctx *ctx)
@@ -187,7 +187,7 @@ void find_convex_hull(struct ctx *ctx)
 					     ctx->defects_st);
 
 		if (defects && defects->total) {
-			defect_array = calloc(defects->total,
+			defect_array = (CvConvexityDefect*) calloc(defects->total,
 					      sizeof(CvConvexityDefect));
 			cvCvtSeqToArray(defects, defect_array, CV_WHOLE_SEQ);
 
@@ -237,7 +237,7 @@ void find_fingers(struct ctx *ctx)
 		return;
 
 	n = ctx->contour->total;
-	points = calloc(n, sizeof(CvPoint));
+	points = (CvPoint*) calloc(n, sizeof(CvPoint));
 
 	cvCvtSeqToArray(ctx->contour, points, CV_WHOLE_SEQ);
 
